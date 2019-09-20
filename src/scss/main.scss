@@ -61,11 +61,11 @@ body {
 
 #banner {
     height:600px;
-    background-color:wHite;
     margin-bottom:25px;
     position:relative;
+    z-index:1;
     h1 {
-        position:absolute;
+       position:absolute;
         top:50%;
         right:100px;
         font-size:50px;
@@ -119,6 +119,8 @@ footer {
 
 @media screen and (max-width:700px) {
     #main-nav {
+        z-index:999;
+        position:relative;
         float:none;
         width:100%;
         a {
@@ -130,12 +132,14 @@ footer {
         }
         ul {
             display:none;
+            
          }
         ul li {
             float:none;
             width:100%;
             display:block;
             background-color:$darkGray;
+            z-index:99999;
           }
     }
 
