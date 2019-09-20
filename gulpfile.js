@@ -1,4 +1,4 @@
-// Skapar ett objekt som gör det möjligt att angiven gulp-funktionalitet
+// Skapar ett objekt som gör det möjligt att använda angiven gulp-funktionalitet
 const {src, dest, watch, series, parallel} = require("gulp");
 //Inkluderar gulp-concat och lägger i en varibel
 const concatJs = require("gulp-concat");
@@ -6,10 +6,14 @@ const concatJs = require("gulp-concat");
 const uglify = require ("gulp-uglify-es").default;
 // CSS-konkatenering
 const concatCss = require('gulp-concat-css');
-// CSS-komprimeringc
+// CSS-komprimering
 const cleanCss = require('gulp-clean-css');
 // Browser-sync - används för live-reload i webbläsare
 const browserSync = require('browser-sync').create()
+// Konvertera Sass till CSS
+const sass = require('gulp-sass');
+sass.compiler = require('node-sass');
+
 
 // Sökvägar
 // Skapar ett objekt som plockar alla filer med angivna filformat
@@ -17,6 +21,7 @@ const files = {
     htmlPath: "src/**/*.html",
     jsPath: "src/**/*.js",
     cssPath: "src/**/*.css",
+    sassPath: "src/**/*.scss",
     imagesPath: "src/images/*"
 }
 
@@ -30,7 +35,7 @@ function htmlTask() {
         .pipe(browserSync.stream());
 }
 
-// Task som konkaternerar och minifierar js-filer
+// Task som konkatenerar och minifierar js-filer
 function jsTask() {
     // Hämtar js-filer
     return src (files.jsPath)
@@ -44,7 +49,7 @@ function jsTask() {
         .pipe(browserSync.stream());
 }
 
-// Task som konkaternerar och minifierar CSS-filer
+// Task som konkatenerar och minifierar CSS-filer
 function cssTask() {
     // Plockar fram alla css-filer
     return src (files.cssPath)
@@ -56,6 +61,19 @@ function cssTask() {
         .pipe(dest("pub/css"))
         // Kör livereload
         .pipe(browserSync.stream());
+}
+
+// Task som konverterar sass(scss)-filer till css
+function sassTask() {
+    // Hämtar sass-filer
+    return src(files.sassPath)
+        .pipe(sass().on('error', sass.logError))
+        // Slår ihop css-filerna till en med concat
+        .pipe(concatCss("style.css"))
+        // Minifierar CSS-filen
+        .pipe(cleanCss({compatibility: 'ie8'}))
+        // Skickar till katalogen pub
+        .pipe(dest('pub/css'))
 }
 
 // Task som kopierar filer från src och pipar vidare till pub-katalogen
@@ -73,9 +91,9 @@ function watchTask() {
         }
     });
     // Kikar om förändringar gjorts
-    watch([files.htmlPath, files.jsPath, files.cssPath, files.imagesPath],
+    watch([files.htmlPath, files.jsPath, files.sassPath, files.imagesPath],
         // Kollar efter html-, css- och js-filer samtidigt
-        parallel (htmlTask,jsTask, cssTask, imageTask)
+        parallel (htmlTask,jsTask, sassTask, imageTask)
         // Laddar om sidan när någonting förändrats
         ).on('change', browserSync.reload);
 }
@@ -83,7 +101,7 @@ function watchTask() {
 // Gör dessa funktioner publika
 exports.default = series (
     // Dessa tre körs samtidigt
-    parallel (htmlTask, jsTask, cssTask, imageTask),
+    parallel (htmlTask, jsTask, sassTask, imageTask),
     // Sedan körs watchTask
     watchTask
 );
