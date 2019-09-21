@@ -1,0 +1,35 @@
+// Mixin som sätter standardutseendet på sidinnehållet
+@mixin content {
+    background-color:$lightGray;
+    border-radius:5px;
+    h2 {
+        font-size:30px;
+        font-family: 'Lalezar', cursive;
+    }
+    h3 {
+        text-align:center;
+        padding:5% 0;
+        font-size:22px;
+        font-family: 'Lalezar', cursive;
+    }
+}
+
+// Mixin som bygger upp ett rutnät(grid)
+@mixin gridBuilder($columns, $margin) {
+    float:left;
+    margin-right:$margin;
+    margin-bottom:$margin;
+    width: ((100% - (($columns - 1) * $margin)) / $columns );
+        &:nth-child(#{$columns}n) {
+            margin-right:0;
+        }
+    }
+
+// Mixin som används för att ta bort float
+@mixin clearFloat {
+    &:after {
+    content:"";
+    display:float;
+    clear:both;
+    }
+}

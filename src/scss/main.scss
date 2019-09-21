@@ -1,8 +1,9 @@
+// Importerar övriga scss-filer
 @import "reset";
 @import "variables";
 @import "mixins";
 
-
+// Hela sidan
 html {
     font-family: 'Acme', sans-serif;
 }
@@ -15,6 +16,7 @@ body {
     max-width:1920px;
 }
 
+//Huvudmenyn
 #mainheader {
     height:50px;
     background-color:$darkGray;
@@ -35,6 +37,7 @@ body {
             font-size:20px;
             padding:10px 20px;
             line-height:50px;
+            // & Används för att style pseudo-klasser
             &:hover {
                 color:black;
                 background-color:$yellow;
@@ -47,23 +50,24 @@ body {
     }
 
 }
-
+// Aktuell sida
 .active {
-    color:black!important;
+    color:$darkGray!important;
     background-color:$yellow;
 }
 
+// Gul rand som flyter ihop med aktuell sida
 #second-header {
     height:5px;
     background-color:$yellow;
-
 }
 
+//Banner med bild och text
 #banner {
-    height:600px;
-    margin-bottom:25px;
+    height:500px;
     position:relative;
     z-index:1;
+    margin-bottom:2%;
     h1 {
        position:absolute;
         top:50%;
@@ -72,26 +76,49 @@ body {
         padding:25px;
         background-color:$lightGray;
         color:$darkGray;
+        font-family: 'Lalezar', cursive;
+        border-radius:5px;
     }
     img {
-        height:100%;
         width:100%;
+        height:100%;
     }
 }
+
+// Sidinnehåll
 #container {
     min-height:100%;
     max-width:960px;
     margin:0 auto;
 }
-
 #main {
     overflow:auto;
     padding-bottom:100px;
-    background-color:$lightGray;
-    padding:10%;
+    margin:0 2%;
 }
 
+// Stora textfältet
+#main-text {
+    @include content;
+    padding:10%;
+    margin-bottom:2%;
+}
 
+// Produkter och tjänster
+.service {
+    @include content;
+    @include gridBuilder(4, 2%);
+    height:200px;
+}
+
+// Reklam-elementen
+.commercial {
+    @include content;
+    @include gridBuilder(2, 2%);
+    height:200px;
+}
+
+// Sidfoten
 footer {
     background-color:$yellow;
     color:black;
@@ -100,12 +127,14 @@ footer {
     margin-top:-100px;
 }
 
+// Innehållet i sidfoten
 .footer-content {
     max-width:960px;
     margin:0 auto;
-    padding:25px 0;
+    padding:25px;
 }
 
+// Döljer mobilikonen
 #mobiler-container {
     display:none;
 }
@@ -113,11 +142,9 @@ footer {
     display:none;
 }
 
-
-
-
-
+// Media queries
 @media screen and (max-width:700px) {
+    // Designar mobilmenyn
     #main-nav {
         z-index:999;
         position:relative;
@@ -142,23 +169,21 @@ footer {
             z-index:99999;
           }
     }
-
+    // Visar menyn då den har klassen open (via klick)
     #main-nav ul.open {
         display:block;
     }
-
     #mobile-container{
         position: relative;
         width: 40px;
         float:right;
         margin:12.5px;
     }
-    
     #mobile-menu{
         cursor: pointer;
         display: block;
     }
-    
+    // De tre strecken som bygger upp mobilmenyn
     #mobile-menu span{
         background: $lightGray;
         display: block;
@@ -170,20 +195,51 @@ footer {
         transition: all ease-in-out 0.4s;
         border-radius:5px;
     }
-    
+    // Mittenstrecket försvinner vid klick
     #mobile-menu.open span:nth-child(2){
         width: 0;
         opacity: 0;
     }
-    
+    // Det understa strecket roterar och bildar ett halvt kryss
     #mobile-menu.open span:nth-child(3){
         transform: rotate(45deg);
         top: -10px;
     }
-    
+    // Det översta strecket roterar och bildar ett halvt krytt
     #mobile-menu.open span:nth-child(1){
         transform: rotate(-45deg);
         top: 10px;
+    }
+    //Banner med bild och text
+#banner {
+    height:300px;
+    h1 {
+       position:absolute;
+        top:50%;
+        right:100px;
+        font-size:30px;
+        padding:25px;
+    }
+    img {
+        width:100%;
+        height:100%;
+    }
+}
+    // Ändrar utseendet på produkter & tjänster
+    .service {
+        @include gridBuilder(2, 2%);
+        h3 {
+            padding:5% 0;
+            font-size:22px;
+        }
+    }
+    // Ändrar utseendet på reklam-elementen
+    .commercial {
+       @include gridBuilder(1, 2%);
+        h3 {
+            padding:5% 0;
+            font-size:22px;
+        }
     }
 
 }
