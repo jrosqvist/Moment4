@@ -15,6 +15,16 @@ body {
     color:black;
     max-width:1920px;
 }
+// Gula element med mörkgrå text
+%yellowDarkgray {
+    color:$darkGray!important;
+    background-color:$yellow;
+}
+// Standardutseende för sidinnehålls-elementen
+%standardLayout {
+    background-color:$lightGray;
+    border-radius:5px;
+}
 
 //Huvudmenyn
 #mainheader {
@@ -37,10 +47,10 @@ body {
             font-size:20px;
             padding:10px 20px;
             line-height:50px;
-            // & Används för att style pseudo-klasser
+            // & Används för att stylea pseudo-klasser
             &:hover {
-                color:black;
-                background-color:$yellow;
+                @extend %yellowDarkgray;
+                background-color:lighten($yellow, 15);                
             }
         }
     }
@@ -52,9 +62,8 @@ body {
 }
 // Aktuell sida
 .active {
-    color:$darkGray!important;
-    background-color:$yellow;
-}
+    @extend %yellowDarkgray;
+} 
 
 // Gul rand som flyter ihop med aktuell sida
 #second-header {
@@ -69,7 +78,7 @@ body {
     z-index:1;
     margin-bottom:2%;
     h1 {
-       position:absolute;
+        position:absolute;
         top:50%;
         right:100px;
         font-size:50px;
@@ -99,29 +108,42 @@ body {
 
 // Stora textfältet
 #main-text {
-    @include content;
+    @extend %standardLayout;
     padding:10%;
     margin-bottom:2%;
+    h2 {
+        font-size:30px;
+        font-family: 'Lalezar', cursive;
+    }
 }
 
 // Produkter och tjänster
 .service {
-    @include content;
+    @extend %standardLayout;
     @include gridBuilder(4, 2%);
-    height:200px;
+    min-height:200px;
+    &:hover {
+        background-color:darken($lightGray, 7.5);
+    }
+    h3 {
+        text-align:center;
+        padding:5% 0;
+        font-size:22px;
+        font-family: 'Lalezar', cursive;
+    }
 }
 
 // Reklam-elementen
 .commercial {
-    @include content;
     @include gridBuilder(2, 2%);
-    height:200px;
+    img {
+        width:100%;
+    }
 }
 
 // Sidfoten
 footer {
-    background-color:$yellow;
-    color:black;
+    @extend %yellowDarkgray;
     position:relative;
     height:100px;
     margin-top:-100px;
@@ -143,7 +165,7 @@ footer {
 }
 
 // Media queries
-@media screen and (max-width:700px) {
+@media screen and (max-width:750px) {
     // Designar mobilmenyn
     #main-nav {
         z-index:999;
@@ -192,7 +214,7 @@ footer {
         margin-bottom: 5px;
         position: relative;
         top: 0;
-        transition: all ease-in-out 0.4s;
+        transition: all ease-in-out 0.2s;
         border-radius:5px;
     }
     // Mittenstrecket försvinner vid klick
@@ -219,10 +241,6 @@ footer {
         right:100px;
         font-size:30px;
         padding:25px;
-    }
-    img {
-        width:100%;
-        height:100%;
     }
 }
     // Ändrar utseendet på produkter & tjänster

@@ -13,6 +13,8 @@ const browserSync = require('browser-sync').create()
 // Konvertera Sass till CSS
 const sass = require('gulp-sass');
 sass.compiler = require('node-sass');
+// Sourcemaps används för att kunna se var CSS-koden kommer ifrån
+const sourcemaps = require('gulp-sourcemaps');
 
 
 // Sökvägar
@@ -21,7 +23,7 @@ const files = {
     htmlPath: "src/**/*.html",
     jsPath: "src/**/*.js",
     cssPath: "src/**/*.css",
-    sassPath: "src/**/*.scss",
+    sassPath: "src/scss/*.scss",
     imagesPath: "src/images/*"
 }
 
@@ -63,17 +65,19 @@ function cssTask() {
         .pipe(browserSync.stream());
 }
 
+
 // Task som konverterar sass(scss)-filer till css
 function sassTask() {
     // Hämtar sass-filer
     return src(files.sassPath)
-        .pipe(sass().on('error', sass.logError))
-        // Slår ihop css-filerna till en med concat
-        .pipe(concatCss("style.css"))
-        // Minifierar CSS-filen
-        .pipe(cleanCss({compatibility: 'ie8'}))
+        // Startar sourcemaps
+        .pipe(sourcemaps.init())
+        // Konverterar till Css och komrpimerar
+        .pipe(sass(({outputStyle: 'compressed'})).on('error', sass.logError))
+        // Skriver en mappad version
+        .pipe(sourcemaps.write("."))
         // Skickar till katalogen pub
-        .pipe(dest('pub/css'))
+        .pipe(dest('pub/css'));
 }
 
 // Task som kopierar filer från src och pipar vidare till pub-katalogen
