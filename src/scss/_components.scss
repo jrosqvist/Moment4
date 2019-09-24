@@ -1,0 +1,42 @@
+//Huvudmenyn
+#mainheader {
+  height: 50px;
+  background-color: $darkGray;
+  h2 {
+    float: left;
+    line-height: 50px;
+    margin-left: 25px;
+    color: $lightGray;
+    font-size: 30px;
+    font-family: "Fontdiner Swanky", cursive;
+  }
+  #main-nav {
+    float: right;
+    a {
+      font-family: "Lalezar", cursive;
+      text-decoration: none;
+      color: $lightGray;
+      font-size: 20px;
+      padding: 10px 20px;
+      line-height: 50px;
+      // & Används för att stylea pseudo-klasser
+      &:hover {
+        @extend %yellowDarkgray;
+        background-color: lighten($yellow, 15);
+      }
+    }
+  }
+  ul li {
+    float: left;
+    display: block;
+  }
+}
+// Aktuell sida
+.active {
+  @extend %yellowDarkgray;
+}
+// Gul rand som flyter ihop med aktuell sida
+#second-header {
+  height: 5px;
+  background-color: $yellow;
+}

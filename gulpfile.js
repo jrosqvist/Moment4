@@ -72,7 +72,7 @@ function sassTask() {
     return src(files.sassPath)
         // Startar sourcemaps
         .pipe(sourcemaps.init())
-        // Konverterar till Css och komrpimerar
+        // Konverterar till Css och komrpimerar filen
         .pipe(sass(({outputStyle: 'compressed'})).on('error', sass.logError))
         // Skriver en mappad version
         .pipe(sourcemaps.write("."))

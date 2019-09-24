@@ -1,25 +1,46 @@
 // Mixin som bygger upp ett rutnät(grid)
 @mixin gridBuilder($columns, $margin) {
-    float:left;
-    margin-right:$margin;
-    margin-bottom:$margin;
-    width: ((100% - (($columns - 1) * $margin)) / $columns );
-    &:nth-child(#{$columns}n) {
-        margin-right:0;
-    }
+  float: left;
+  margin-right: $margin;
+  margin-bottom: $margin;
+  width: ((100% - (($columns - 1) * $margin)) / $columns);
+  &:nth-child(#{$columns}n) {
+    margin-right: 0;
+  }
+}
+
+// Sätter textfärgen beroende på angiven bakgrundsfärg
+@mixin backgroundColor($bColor) {
+  @if ($bColor == $yellow) {
+    background-color: $yellow;
+    color: $darkGray;
+  } @else if ($bColor == $lightGray) {
+    background-color: $lightGray;
+    color: $darkGray;
+  } @else if ($bColor == $darkGray) {
+    background-color: $darkGray;
+    color: $lightGray;
+  } @else if (lightness($bColor) < 50) {
+    background-color: $bColor;
+    color: white;
+  } @else {
+    background-color: $bColor;
+    color: black;
+  }
 }
 
 // Mixin som används för att ta bort float
 @mixin clearFloat {
-    &:after {
-    content:"";
-    display:float;
-    clear:both;
-    }
+  &:after {
+    content: "";
+    display: float;
+    clear: both;
+  }
 }
 
-@mixin transform($property) { 
-    -webkit-transform: $property;
-    -ms-transform: $property; 
-    transform: $property;
+// Mixin som hanterar prefix
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
 }
