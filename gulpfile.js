@@ -15,6 +15,8 @@ const sass = require('gulp-sass');
 sass.compiler = require('node-sass');
 // Sourcemaps används för att kunna se var CSS-koden kommer ifrån
 const sourcemaps = require('gulp-sourcemaps');
+// Babel används för att transpilera senare EcmaScript-kod till ES5
+const babel = require("gulp-babel");
 
 
 // Sökvägar
@@ -41,6 +43,10 @@ function htmlTask() {
 function jsTask() {
     // Hämtar js-filer
     return src (files.jsPath)
+        // Aktiverar sourcemaps
+        .pipe(sourcemaps.init())
+        // Transpilerar JS-koden med Babel
+        .pipe(babel())
         // Slår ihop js-filerna till en med concat
         .pipe(concatJs("main.js"))
         // Minifierar js-filenmed uglify

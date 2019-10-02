@@ -1,1 +1,1 @@
-$(document).ready(function(){$("#mobile-menu").on("click",function(){$(this).toggleClass("open")})}),$(document).ready(function(){$("#mobile-menu").on("click",function(){$("#main-nav ul").toggleClass("open")})});
+"use strict";var testHaest="Häst";console.log("Testar babel --\x3e ".concat(testHaest)),$(document).ready(function(){$("#mobile-menu").on("click",function(){$(this).toggleClass("open")})}),$(document).ready(function(){$("#mobile-menu").on("click",function(){$("#main-nav ul").toggleClass("open")})});
